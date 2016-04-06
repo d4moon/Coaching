@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+using NUnit.Framework;
 
 namespace RomanNumbers.Tests
 {
@@ -6,9 +7,13 @@ namespace RomanNumbers.Tests
     public class RomanNumbersShould
     {
         [Test]
-        public void Fail()
+        public void return_roman_I_given_arabic_1()
         {
-            Assert.Fail();
+            var romanNumbers = new Src.RomanNumbers();
+
+            var romanNumber = romanNumbers.GetRomanNumber(1);
+            
+            romanNumber.Should().Be("I");
         }
     }
 }
