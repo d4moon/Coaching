@@ -4,7 +4,8 @@
     {
         public string GetRomanNumber(int arabicNumber)
         {
-            return "I";
+            var romanNumbersArray = new[] { "I", "II", "III", "IV" };
+            return romanNumbersArray[arabicNumber - 1];
         }
     }
 }

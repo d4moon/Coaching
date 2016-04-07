@@ -6,14 +6,19 @@ namespace RomanNumbers.Tests
     [TestFixture]
     public class RomanNumbersShould
     {
-        [Test]
-        public void return_roman_I_given_arabic_1()
+        
+        [TestCase(1,"I")]
+        [TestCase(2,"II")]
+        [TestCase(3,"III")]
+        [TestCase(4,"IV")]
+        public void return_roman_number_given_arabic_number(int arabicNumber, string expectedRomanNumber)
         {
             var romanNumbers = new Src.RomanNumbers();
 
-            var romanNumber = romanNumbers.GetRomanNumber(1);
+            var romanNumber = romanNumbers.GetRomanNumber(arabicNumber);
             
-            romanNumber.Should().Be("I");
+            romanNumber.Should().Be(expectedRomanNumber);
         }
+
     }
 }
