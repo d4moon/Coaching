@@ -19,5 +19,19 @@ namespace TicTacToe.Tests
 
             gameResult.Should().Be(expectedXPosition);
         }
+
+        [Test]
+        public void AllocateInputToO_GivenSecondInput()
+        {
+            const string expectedXPosition = "XO " +
+                                            "   " +
+                                            "   ";
+            var ticTacToe = new TicTacToeService();
+
+            var gameResult = ticTacToe.Play(1, 2);
+
+            gameResult.Should().Be(expectedXPosition);
+        }
+
     }
 }

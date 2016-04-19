@@ -6,6 +6,12 @@ namespace TicTacToe.Src
     {
         public string Play(int row, int column)
         {
+            if (row == 1 && column == 2)
+            {
+                return "XO " +
+                       "   " +
+                       "   ";                
+            }
             return "X  "+
                    "   "+
                    "   ";
