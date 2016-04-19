@@ -27,6 +27,7 @@ namespace TicTacToe.Tests
                                             "   " +
                                             "   ";
             var ticTacToe = new TicTacToeService();
+            ticTacToe.Play(1, 1);
 
             var gameResult = ticTacToe.Play(1, 2);
 
@@ -41,7 +42,9 @@ namespace TicTacToe.Tests
                                             "   ";
 
             var ticTacToe = new TicTacToeService();
-
+            ticTacToe.Play(1, 1);
+            ticTacToe.Play(1, 2);
+                    
             var gameResult = ticTacToe.Play(1, 3);
 
             gameResult.Should().Be(expectedXPosition);
