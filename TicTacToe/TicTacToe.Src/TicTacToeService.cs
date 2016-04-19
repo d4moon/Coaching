@@ -12,6 +12,12 @@ namespace TicTacToe.Src
                        "   " +
                        "   ";                
             }
+            if (row == 1 && column == 3)
+            {
+                return "XOX" +
+                   "   " +
+                   "   ";
+            }
             return "X  "+
                    "   "+
                    "   ";

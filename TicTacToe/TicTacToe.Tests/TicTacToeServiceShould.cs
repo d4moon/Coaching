@@ -33,5 +33,19 @@ namespace TicTacToe.Tests
             gameResult.Should().Be(expectedXPosition);
         }
 
+        [Test]
+        public void ReturnXOXInCorrectPosition_GivenThirdInput()
+        {
+            const string expectedXPosition = "XOX" +
+                                            "   " +
+                                            "   ";
+
+            var ticTacToe = new TicTacToeService();
+
+            var gameResult = ticTacToe.Play(1, 3);
+
+            gameResult.Should().Be(expectedXPosition);
+        }
+
     }
 }
