@@ -6,7 +6,9 @@ namespace TicTacToe.Src
     {
         public string Play(int row, int column)
         {
-            throw new NotImplementedException();
+            return "X  "+
+                   "   "+
+                   "   ";
         }
     }
 }
