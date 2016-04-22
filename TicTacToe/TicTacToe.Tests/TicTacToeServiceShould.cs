@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NUnit.Framework;
 using TicTacToe.Src;
 
@@ -24,7 +22,7 @@ namespace TicTacToe.Tests
                                              "   " +
                                              "   ";
             
-            var gameResult = _ticTacToe.Play(1, 1);
+            var gameResult = _ticTacToe.Play(new Row(1), new Column(1));
 
             gameResult.Should().Be(expectedXPosition);
         }
@@ -35,9 +33,9 @@ namespace TicTacToe.Tests
             const string expectedXPosition = "XO " +
                                             "   " +
                                             "   ";
-            _ticTacToe.Play(1, 1);
+            _ticTacToe.Play(new Row(1), new Column(1));
 
-            var gameResult = _ticTacToe.Play(1, 2);
+            var gameResult = _ticTacToe.Play(new Row(1), new Column(2));
 
             gameResult.Should().Be(expectedXPosition);
         }
@@ -48,10 +46,10 @@ namespace TicTacToe.Tests
             const string expectedXPosition = "XOX" +
                                              "   " +
                                              "   ";
-            _ticTacToe.Play(1, 1);
-            _ticTacToe.Play(1, 2);
-                    
-            var gameResult = _ticTacToe.Play(1, 3);
+            _ticTacToe.Play(new Row(1), new Column(1));
+            _ticTacToe.Play(new Row(1), new Column(2));
+
+            var gameResult = _ticTacToe.Play(new Row(1), new Column(3));
 
             gameResult.Should().Be(expectedXPosition);
         }

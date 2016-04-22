@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 namespace TicTacToe.Src
@@ -8,18 +9,18 @@ namespace TicTacToe.Src
     {
         string[,] playBoard = new string[3,3];
         
-        public string Play(int row, int column)
+        public string Play(Row row, Column column)
         {
 
-            playBoard[row - 1, column - 1] = "X";
-   
-            if (row == 1 && column == 2)
+            playBoard[row.Value - 1, column.Value - 1] = "X";
+
+            if (row.Value == 1 && column.Value == 2)
             {
-                playBoard[row - 1, column - 1] = "O";
+                playBoard[row.Value - 1, column.Value - 1] = "O";
             }
-            if (row == 1 && column == 3)
+            if (row.Value == 1 && column.Value == 3)
             {
-                playBoard[row - 1, column - 1] = "X";
+                playBoard[row.Value - 1, column.Value - 1] = "X";
             }
             var result = new StringBuilder();
             foreach (var character in playBoard)
@@ -36,6 +37,27 @@ namespace TicTacToe.Src
             }
             return result.ToString();
         }
+
+      
     }
 
+    public class Column
+    {
+        public int Value { get; private set; }
+
+        public Column(int column)
+        {
+            Value = column;
+        }
+    }
+
+    public class Row
+    {
+        public int Value { get; private set; }
+
+        public Row(int row)
+        {
+            Value = row;
+        }
+    }
 }
