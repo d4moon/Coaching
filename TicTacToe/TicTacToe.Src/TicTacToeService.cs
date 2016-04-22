@@ -1,63 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-
-namespace TicTacToe.Src
+﻿namespace TicTacToe.Src
 {
     public class TicTacToeService
     {
-        string[,] playBoard = new string[3,3];
-        
+        private readonly PlayBoard _playBoard;
+        private readonly BoardRenderer _renderer;
+
+        public TicTacToeService()
+        {
+            _playBoard = new PlayBoard();
+            _renderer = new BoardRenderer(_playBoard);
+        }
+
         public string Play(Row row, Column column)
         {
+            var player = CurrentPlayer(row, column);
+            _playBoard.Move(row, column, player);
+            return _renderer.PrettyPrint();
+        }
 
-            playBoard[row.Value - 1, column.Value - 1] = "X";
-
+        private static string CurrentPlayer(Row row, Column column)
+        {
+            var player = "X";
             if (row.Value == 1 && column.Value == 2)
             {
-                playBoard[row.Value - 1, column.Value - 1] = "O";
+                player = "O";
             }
             if (row.Value == 1 && column.Value == 3)
             {
-                playBoard[row.Value - 1, column.Value - 1] = "X";
+                player = "X";
             }
-            var result = new StringBuilder();
-            foreach (var character in playBoard)
-            {
-                if (string.IsNullOrEmpty(character))
-                {
-                    result.Append(" ");
-                }
-                else
-                {
-                    result.Append(character);    
-                }
-                
-            }
-            return result.ToString();
-        }
-
-      
-    }
-
-    public class Column
-    {
-        public int Value { get; private set; }
-
-        public Column(int column)
-        {
-            Value = column;
-        }
-    }
-
-    public class Row
-    {
-        public int Value { get; private set; }
-
-        public Row(int row)
-        {
-            Value = row;
+            return player;
         }
     }
 }
