@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using System.Collections;
+using System.Collections.Generic;
+using FluentAssertions;
 using NUnit.Framework;
 using TicTacToe.Src;
 
@@ -7,15 +9,22 @@ namespace TicTacToe.Tests
     [TestFixture]
     public class TicTacToeServiceShould
     {
+        private TicTacToeService _ticTacToe;
+
+        [SetUp]
+        public void Setup()
+        {
+            _ticTacToe = new TicTacToeService();
+        }
+
         [Test]
         public void AllocateInputToX_GivenFirstInput()
         {
             const string expectedXPosition = "X  " +
                                              "   " +
                                              "   ";
-            var ticTacToe = new TicTacToeService();
             
-            var gameResult = ticTacToe.Play(1, 1);
+            var gameResult = _ticTacToe.Play(1, 1);
 
             gameResult.Should().Be(expectedXPosition);
         }
@@ -26,10 +35,9 @@ namespace TicTacToe.Tests
             const string expectedXPosition = "XO " +
                                             "   " +
                                             "   ";
-            var ticTacToe = new TicTacToeService();
-            ticTacToe.Play(1, 1);
+            _ticTacToe.Play(1, 1);
 
-            var gameResult = ticTacToe.Play(1, 2);
+            var gameResult = _ticTacToe.Play(1, 2);
 
             gameResult.Should().Be(expectedXPosition);
         }
@@ -38,17 +46,17 @@ namespace TicTacToe.Tests
         public void ReturnXOXInCorrectPosition_GivenThirdInput()
         {
             const string expectedXPosition = "XOX" +
-                                            "   " +
-                                            "   ";
-
-            var ticTacToe = new TicTacToeService();
-            ticTacToe.Play(1, 1);
-            ticTacToe.Play(1, 2);
+                                             "   " +
+                                             "   ";
+            _ticTacToe.Play(1, 1);
+            _ticTacToe.Play(1, 2);
                     
-            var gameResult = ticTacToe.Play(1, 3);
+            var gameResult = _ticTacToe.Play(1, 3);
 
             gameResult.Should().Be(expectedXPosition);
         }
 
     }
+
+
 }

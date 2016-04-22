@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace TicTacToe.Src
@@ -35,7 +36,6 @@ namespace TicTacToe.Src
             }
             return result.ToString();
         }
-
-
     }
+
 }
