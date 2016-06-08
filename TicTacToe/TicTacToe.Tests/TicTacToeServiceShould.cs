@@ -40,18 +40,16 @@ namespace TicTacToe.Tests
             gameResult.Should().Be(expectedXPosition);
         }
 
-        [Test]
-        public void ReturnXOXInCorrectPosition_GivenThirdInput()
+        [TestCase("XOX      ", new[] { 1, 1, 1, 2 })]
+        public void mf(string expStuff, int[] moves)
         {
-            const string expectedXPosition = "XOX" +
-                                             "   " +
-                                             "   ";
-            _ticTacToe.Play(new Row(1), new Column(1));
-            _ticTacToe.Play(new Row(1), new Column(2));
-
+            for (int i = 0; i < moves.Length; i = i + 2)
+            {
+                _ticTacToe.Play(new Row(moves[i]), new Column(moves[i+1]));
+            }
             var gameResult = _ticTacToe.Play(new Row(1), new Column(3));
 
-            gameResult.Should().Be(expectedXPosition);
+            gameResult.Should().Be(expStuff);
         }
 
     }
