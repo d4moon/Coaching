@@ -15,39 +15,16 @@ namespace TicTacToe.Tests
             _ticTacToe = new TicTacToeService();
         }
 
-        [Test]
-        public void AllocateInputToX_GivenFirstInput()
+        [TestCase("XOX      ", new[] { 1, 1, 1, 2, 1, 3 })]
+        [TestCase("X        ", new[] { 1, 1 })]
+        [TestCase("XO       ", new[] { 1, 1, 1, 2 })]
+        public void allocate_correct_moves_for_given_input(string expStuff, int[] moves)
         {
-            const string expectedXPosition = "X  " +
-                                             "   " +
-                                             "   ";
-            
-            var gameResult = _ticTacToe.Play(new Row(1), new Column(1));
-
-            gameResult.Should().Be(expectedXPosition);
-        }
-
-        [Test]
-        public void AllocateInputToO_GivenSecondInput()
-        {
-            const string expectedXPosition = "XO " +
-                                            "   " +
-                                            "   ";
-            _ticTacToe.Play(new Row(1), new Column(1));
-
-            var gameResult = _ticTacToe.Play(new Row(1), new Column(2));
-
-            gameResult.Should().Be(expectedXPosition);
-        }
-
-        [TestCase("XOX      ", new[] { 1, 1, 1, 2 })]
-        public void mf(string expStuff, int[] moves)
-        {
+            string gameResult = null;
             for (int i = 0; i < moves.Length; i = i + 2)
             {
-                _ticTacToe.Play(new Row(moves[i]), new Column(moves[i+1]));
+                gameResult = _ticTacToe.Play(new Row(moves[i]), new Column(moves[i+1]));
             }
-            var gameResult = _ticTacToe.Play(new Row(1), new Column(3));
 
             gameResult.Should().Be(expStuff);
         }
