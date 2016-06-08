@@ -17,7 +17,9 @@
         {
             var currentSign = CurrentSign();
             _playBoard.Move(row, column, currentSign);
-            return _renderer.PrettyPrint();
+
+            return _playBoard.CheckStatus() ?? _renderer.PrettyPrint();
+            
         }
 
         private Sign CurrentSign()
@@ -32,6 +34,14 @@
             return _currentSign;
 
         }
+    }
+
+    public class GameStatusChecker  
+    {
+        //public void CheckStatus(PlayBoard board)
+        //{
+            
+        //}
     }
 
     public enum Sign 

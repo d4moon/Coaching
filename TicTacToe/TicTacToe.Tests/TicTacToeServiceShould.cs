@@ -15,24 +15,26 @@ namespace TicTacToe.Tests
             _ticTacToe = new TicTacToeService();
         }
 
-        [TestCase("XOX      ", new[] { 1, 1, 1, 2, 1, 3 })]
+        //[TestCase("XOX      ", new[] { 1, 1, 1, 2, 1, 3 })]
         [TestCase("X        ", new[] { 1, 1 })]
         [TestCase("XO       ", new[] { 1, 1, 1, 2 })]
-        public void allocate_correct_moves_for_given_input(string expectedBoard, int[] moves)
+        [TestCase("XOOXXO   ", new[] { 1, 1, 1, 2, 2, 1, 1, 3, 2, 2, 2, 3 })]
+        [TestCase("THE WINNER IS X", new[] { 1, 1, 1, 2, 2, 1, 1, 3, 2, 2, 2, 3, 3, 1 })]
+        public void render_game_status_for_given_input(string expectedGameStatus, int[] moves)
         {
-            var renderedBoard = PlayMoves(moves);
+            var gameStatus = PlayMoves(moves);
 
-            renderedBoard.Should().Be(expectedBoard);
+            gameStatus.Should().Be(expectedGameStatus);
         }
 
         private string PlayMoves(int[] moves)
         {
-            string renderedBoard = null;
+            string gameStatus = null;
             for (int i = 0; i < moves.Length; i = i + 2)
             {
-                renderedBoard = _ticTacToe.Play(new Row(moves[i]), new Column(moves[i + 1]));
+                gameStatus = _ticTacToe.Play(new Row(moves[i]), new Column(moves[i + 1]));
             }
-            return renderedBoard;
+            return gameStatus;
         }
     }
 
