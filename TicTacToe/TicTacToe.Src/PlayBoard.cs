@@ -59,6 +59,11 @@ namespace TicTacToe.Src
                 winnerStatus = "THE WINNER IS X";
             }
 
+            if (lines.Any(line => line == WINNERO))
+            {
+                winnerStatus = "THE WINNER IS O";
+            }
+
             return winnerStatus;
         }
 
