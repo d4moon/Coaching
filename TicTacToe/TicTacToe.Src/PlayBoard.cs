@@ -1,4 +1,8 @@
-﻿namespace TicTacToe.Src
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace TicTacToe.Src
 {
     internal class PlayBoard
     {
@@ -23,60 +27,75 @@
 
         public string CheckStatus()
         {
+            var lines = CreateLines();
 
-            string horizontalLine;
-            string verticalLine;
-            string winner=null;
+            var winner = CheckWinner(lines);
 
+            return winner;
+        }
 
-            for (int cellIndex = 0; cellIndex < 3; cellIndex++)
+        private IEnumerable<string> CreateLines()
+        {
+            var lines = new List<string>();
+
+            for (var cellIndex = 0; cellIndex < 3; cellIndex++)
             {
-                horizontalLine =
-                    string.Join(
-                    _playBoard[cellIndex, 0].ToString() , 
-                    _playBoard[cellIndex, 1].ToString(), 
-                    _playBoard[cellIndex, 2].ToString());
+                var horizontalLine = CreateHorizontalLine(cellIndex);
 
-                verticalLine = string.Concat(
-                    _playBoard[0,cellIndex].ToString(), 
-                    _playBoard[1,cellIndex].ToString(), 
-                    _playBoard[2,cellIndex].ToString());
+                var verticalLine = CreateVerticalLine(cellIndex);
 
+                lines.Add(horizontalLine);
+                lines.Add(verticalLine);
+            }
+            return lines;
+        }
 
-                if (horizontalLine == WINNERX || verticalLine == WINNERX)
-                {
-                    winner = "THE WINNER IS X";
-                    break;
-                }
+        private static string CheckWinner(IEnumerable<string> lines)
+        {
+            var winnerStatus = string.Empty;
 
-                if (horizontalLine == WINNERO || verticalLine == WINNERO)
-                {
-                    winner = "THE WINNER IS O";
-                    break;
-                }
+            if (lines.Any(line => line == WINNERX))
+            {
+                winnerStatus = "THE WINNER IS X";
             }
 
-            var diagonal1 = string.Concat(
-                _playBoard[0, 0].ToString(),
-                _playBoard[1, 1].ToString(),
-                _playBoard[2, 2].ToString());
+            return winnerStatus;
+        }
 
-            if (diagonal1 == WINNERX || diagonal1 == WINNERO)
-            {
-                winner = "THE WINNER IS " + _lastPlayer.ToString();
-            }
-
+        private string CreateDiagonalRightToLeft()
+        {
             var diagonal2 = string.Concat(
                 _playBoard[0, 2].ToString(),
                 _playBoard[1, 1].ToString(),
                 _playBoard[2, 0].ToString());
+            return diagonal2;
+        }
 
-            if (diagonal2 == WINNERX || diagonal2 == WINNERO)
-            {
-                winner = winner = "THE WINNER IS " + _lastPlayer.ToString(); ;
-            }
+        private string CreateDiagonalLeftToRight()
+        {
+            var diagonal1 = string.Concat(
+                _playBoard[0, 0].ToString(),
+                _playBoard[1, 1].ToString(),
+                _playBoard[2, 2].ToString());
+            return diagonal1;
+        }
 
-            return winner;
+        private string CreateVerticalLine(int cellIndex)
+        {
+            var verticalLine = string.Concat(
+                _playBoard[0, cellIndex].ToString(),
+                _playBoard[1, cellIndex].ToString(),
+                _playBoard[2, cellIndex].ToString());
+            return verticalLine;
+        }
+
+        private string CreateHorizontalLine(int cellIndex)
+        {
+            var horizontalLine = string.Join(
+                _playBoard[cellIndex, 0].ToString(),
+                _playBoard[cellIndex, 1].ToString(),
+                _playBoard[cellIndex, 2].ToString());
+            return horizontalLine;
         }
     }
 }

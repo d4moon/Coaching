@@ -18,8 +18,9 @@
             var currentSign = CurrentSign();
             _playBoard.Move(row, column, currentSign);
 
-            return _playBoard.CheckStatus() ?? _renderer.PrettyPrint();
-            
+            return string.IsNullOrEmpty(_playBoard.CheckStatus()) 
+                ? _renderer.PrettyPrint() 
+                : _playBoard.CheckStatus();
         }
 
         private Sign CurrentSign()
