@@ -14,18 +14,11 @@ namespace TicTacToe.Src
             _board.Accept(this);
             var renderedBoard = new StringBuilder();
             AppendSignsTo(renderedBoard);
-            CheckGameStatus();
+            
             return renderedBoard.ToString();
         }
 
-        private void CheckGameStatus()
-        {
-            for (int i = 0; i < _playBoard.Length; i++)
-            {
-                int asd = 0;
-            }
-
-        }
+       
 
         public void Set(Sign[,] playBoard)
         {

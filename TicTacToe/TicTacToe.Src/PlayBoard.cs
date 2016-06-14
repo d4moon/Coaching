@@ -47,6 +47,10 @@ namespace TicTacToe.Src
                 lines.Add(horizontalLine);
                 lines.Add(verticalLine);
             }
+
+            lines.Add(CreateDiagonalRightToLeft());
+            lines.Add(CreateDiagonalLeftToRight());
+
             return lines;
         }
 
