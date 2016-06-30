@@ -1,5 +1,10 @@
-﻿using GameOfLife.Src;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using FluentAssertions;
+using GameOfLife.Src;
 using NUnit.Framework;
+using GameOfLife = GameOfLife.Src.GameOfLife;
 
 namespace GameOfLife.Tests
 {
@@ -23,30 +28,140 @@ namespace GameOfLife.Tests
     public class GameOfLifeShould
     {
         [Test]
-        public void return_empty_world_when_ticking_given_empty_seed()
+        public void have_dead_cell_given_an_empty_world()
         {
-            var emptyWorld = new World();
-            var gameOfLife = new Src.GameOfLife(emptyWorld);
+            var world = new World();
+            var position = new Position(0,0);
 
-            var nextWorld = gameOfLife.Tick();
-            
-            Assert.That(nextWorld, Is.EqualTo(emptyWorld));
+            var cellStatus = world.GetCellStatus(position);
+
+            Assert.That(cellStatus, Is.EqualTo(CellStatus.Dead));
         }
 
-        [Test]
-        public void return_empty_world_when_ticking_given_under_populated_world()
+        [TestCase(0,0,CellStatus.Alive)]
+        [TestCase(1, 1, CellStatus.Dead)]
+        public void have_dead_cell_given_a_valid_seed(int x, int y, CellStatus expectedCellStatus)
         {
-            var emptyWorld = new World();
-            var underPopulatedWorld = new World(new[,] {{ 0, 0 }});
-            var gameOfLife = new Src.GameOfLife(underPopulatedWorld);
+            var positions = new List<Position>
+                                {
+                                    new Position(0, 0)
+                                };
 
-            var nextWorld = gameOfLife.Tick();
-            
-            Assert.That(nextWorld, Is.EqualTo(emptyWorld));
+            var world = new World(positions);
+            var position = new Position(x,y);
+
+            var cellStatus = world.GetCellStatus(position);
+
+            Assert.That(cellStatus, Is.EqualTo(expectedCellStatus));
         }
 
-       
+
+        //[Test]
+        //public void kill_a_cell_given_there_is_only_one_cell_before_next_generation()
+        //{
+        //    var world = new World();
+
+        //    world.RunNextGeneration();
+
+        //    var cellStatus = world.GetCellStatus(1, 1);
+        //    cellStatus.Should().Be(CellStatus.Dead);
+        //}
+
+        //[Test]
+        //public void kill_a_cell_given_it_has_one_live_neighbour()
+        //{
+        //    var positions = new List<Position>
+        //                    {
+        //                        new Position(0, 0),
+        //                        new Position(0, 1)
+        //                    };
+        //    var world = new World(positions);
+
+        //    world.RunNextGeneration();
+
+        //    var cellStatus = world.GetCellStatus(1, 1);
+        //    cellStatus.Should().Be(CellStatus.Dead);
+        //}
+
+        //[Test]
+        //public void keep_a_cell_alive_given_it_has_two_live_neighbours()
+        //{
+        //    var positions = new List<Position>
+        //                    {
+        //                        new Position(0, 0),
+        //                        new Position(0, 1),
+        //                        new Position(1, 0)
+        //                    };
+        //    var world = new World(positions);
+
+        //    world.RunNextGeneration();
+
+        //    var cellStatus = world.GetCellStatus(1, 1);
+
+        //    cellStatus.Should().Be(CellStatus.Alive);
+        //}
+    }
+
+    public class Position
+    {
+        protected bool Equals(Position other)
+        {
+            return _row == other._row && _column == other._column;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Position) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (_row*397) ^ _column;
+            }
+        }
+
+        private int _row;
+        private int _column;
+        
+        public Position(int row, int column)
+        {
+            _row = row;
+            _column = column;
+        }
     }
 
 
+    public class World
+    {
+        private readonly List<Position> _positions;
+
+        public World(List<Position> positions)
+        {
+            _positions = positions;
+        }
+
+        public World()
+        {
+        }
+
+        public CellStatus GetCellStatus(Position position)
+        {
+            if (_positions != null && _positions.Any(p=>p.Equals(position)))
+            {
+                return CellStatus.Alive;
+            }
+            return CellStatus.Dead;
+        }
+    }
+
+    public enum CellStatus
+    {
+        Dead,
+        Alive
+    }
 }
