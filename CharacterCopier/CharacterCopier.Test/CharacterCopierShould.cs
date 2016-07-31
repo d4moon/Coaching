@@ -14,7 +14,14 @@ namespace CharacterCopier.Test
         [Test]
         public void Throw_an_exception_given_source_is_null()
         {
-            Action action = () => new CharacterCopier(null, null);
+            Action action = () => new CharacterCopier(null, new DestinationMock());
+            action.ShouldThrow<ArgumentNullException>();
+        }
+
+        [Test]
+        public void Throw_an_exception_given_destination_is_null()
+        {
+            Action action = () => new CharacterCopier(new SourceMock(), null);
             action.ShouldThrow<ArgumentNullException>();
         }
     }
@@ -27,7 +34,20 @@ namespace CharacterCopier.Test
             {
                 throw new ArgumentNullException();
             }
+
+            if (destination == null)
+            {
+                throw new ArgumentNullException();
+            }
         }
+    }
+
+    internal class SourceMock : ISource
+    {
+    }
+
+    internal class DestinationMock : IDestination
+    {
     }
 
     internal interface ISource
