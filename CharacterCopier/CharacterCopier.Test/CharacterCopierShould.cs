@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace CharacterCopier.Test
 {
@@ -23,6 +25,16 @@ namespace CharacterCopier.Test
         {
             Action action = () => new CharacterCopier(new SourceMock(), null);
             action.ShouldThrow<ArgumentNullException>();
+        }
+
+        [Test]
+        public void Call_get_char_from_source_given_valid_source()
+        {
+            ISource source = new SourceMock();
+
+            new CharacterCopier(source, new DestinationMock());
+
+            //source.Verify(s => s.GetChar(), Times.Once());
         }
     }
 
