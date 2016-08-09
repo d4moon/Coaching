@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
+using Nerdle.Ensure;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
@@ -19,7 +20,7 @@ namespace CharacterCopier.Test
             Action action = () => new CharacterCopier(null, new DestinationMock());
             action.ShouldThrow<ArgumentNullException>();
         }
-
+        
         [Test]
         public void Throw_an_exception_given_destination_is_null()
         {
@@ -28,13 +29,13 @@ namespace CharacterCopier.Test
         }
 
         [Test]
-        public void Call_get_char_from_source_given_valid_source()
+        public void Get_char_from_source_given_valid_source()
         {
-            ISource source = new SourceMock();
+            var source = new Mock<ISource>();
 
-            new CharacterCopier(source, new DestinationMock());
+            var characterCopier = new CharacterCopier(source.Object, new DestinationMock());
 
-            //source.Verify(s => s.GetChar(), Times.Once());
+            source.Verify(s => s.GetChar(), Times.Once());
         }
     }
 
@@ -42,20 +43,19 @@ namespace CharacterCopier.Test
     {
         public CharacterCopier(ISource source, IDestination destination)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException();
-            }
+            Ensure.Argument(source, nameof(source)).NotNull();
+            Ensure.Argument(destination, nameof(destination)).NotNull();
 
-            if (destination == null)
-            {
-                throw new ArgumentNullException();
-            }
+            source.GetChar();
         }
     }
 
     internal class SourceMock : ISource
     {
+        public void GetChar()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     internal class DestinationMock : IDestination
@@ -64,6 +64,7 @@ namespace CharacterCopier.Test
 
     internal interface ISource
     {
+        void GetChar();
     }
 
     internal interface IDestination
