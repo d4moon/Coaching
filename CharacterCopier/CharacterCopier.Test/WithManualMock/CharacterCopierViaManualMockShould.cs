@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace CharacterCopier.Test
 {
     [TestFixture]
-    class CharacterCopierShould
+    class CharacterCopierViaManualMockShould
     {
         [Test]
         public void Throw_an_exception_given_source_is_null()
@@ -26,24 +26,43 @@ namespace CharacterCopier.Test
         [Test]
         public void Get_characters_from_source_given_valid_source()
         {
+            var source = new SourceMock();
             var sourceMock = new Mock<ISource>();
 
-            var characterCopier = new CharacterCopier(sourceMock.Object, new DestinationMock());
+            var characterCopier = new CharacterCopier(source, new DestinationMock());
 
-            sourceMock.Verify(s => s.GetChars(), Times.Once());
+
+            //sourceMock.Verify(s => s.GetChars(), Times.Once());
+
+            //source.CheckThat(s => s.GetChars(), Times.Once());
+
+            source.CheckGetCharWasCalled();
         }
-    }
-    
-    internal class DestinationMock : IDestination
-    {
+
     }
 
-    internal interface ISource
+    internal class SourceMock : ISource
     {
-        void GetChars();
-    }
+        private int _methodCallCounter;
 
-    internal interface IDestination
-    {
+        public SourceMock()
+        {
+            _methodCallCounter = 0;
+        }
+        public void GetChars()
+        {
+            _methodCallCounter++;
+        }
+
+        public void CheckThat(Expression<Action<object>> expression, Times times)
+        {
+
+        }
+
+        public bool CheckGetCharWasCalled()
+        {
+            return _methodCallCounter > 0;
+
+        }
     }
 }
