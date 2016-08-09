@@ -24,13 +24,26 @@ namespace CharacterCopier.Test
         }
 
         [Test]
-        public void Get_characters_from_source_given_valid_source()
+        public void Get_character_from_source_given_valid_source()
         {
             var sourceMock = new Mock<ISource>();
-
             var characterCopier = new CharacterCopier(sourceMock.Object, new DestinationMock());
 
-            sourceMock.Verify(s => s.GetChars(), Times.Once());
+            characterCopier.Copy();
+
+            sourceMock.Verify(s => s.GetChar(), Times.Once());
+        }
+
+        [Test]
+        public void Get_all_characters_from_source_given_valid_source()
+        {
+            var sourceMock = new Mock<ISource>();
+            sourceMock.SetupSequence(s => s.GetChar()).Returns('A').Returns('B').Returns('\n');
+            var characterCopier = new CharacterCopier(sourceMock.Object, new DestinationMock());
+
+            characterCopier.Copy();
+
+            sourceMock.Verify(s => s.GetChar(), Times.Exactly(3));
         }
     }
     
@@ -40,7 +53,7 @@ namespace CharacterCopier.Test
 
     internal interface ISource
     {
-        void GetChars();
+        char GetChar();
     }
 
     internal interface IDestination

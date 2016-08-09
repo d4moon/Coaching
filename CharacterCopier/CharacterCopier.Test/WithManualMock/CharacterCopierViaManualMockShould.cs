@@ -32,9 +32,9 @@ namespace CharacterCopier.Test
             var characterCopier = new CharacterCopier(source, new DestinationMock());
 
 
-            //sourceMock.Verify(s => s.GetChars(), Times.Once());
+            //sourceMock.Verify(s => s.GetChar(), Times.Once());
 
-            //source.CheckThat(s => s.GetChars(), Times.Once());
+            //source.CheckThat(s => s.GetChar(), Times.Once());
 
             source.CheckGetCharWasCalled();
         }
@@ -63,6 +63,11 @@ namespace CharacterCopier.Test
         {
             return _methodCallCounter > 0;
 
+        }
+
+        public char GetChar()
+        {
+            throw new NotImplementedException();
         }
     }
 }

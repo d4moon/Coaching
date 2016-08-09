@@ -4,12 +4,18 @@ namespace CharacterCopier.Test
 {
     internal class CharacterCopier
     {
+        private readonly ISource _source;
+
         public CharacterCopier(ISource source, IDestination destination)
         {
+            _source = source;
             Ensure.Argument(source, nameof(source)).NotNull();
             Ensure.Argument(destination, nameof(destination)).NotNull();
+        }
 
-            source.GetChars();
+        public void Copy()
+        {
+            _source.GetChar();
         }
     }
 }
