@@ -46,10 +46,34 @@ namespace CharacterCopier.Test
 
             sourceMock.Verify(s => s.GetChar(), Times.Exactly(3));
         }
+
+        [Test]
+        public void Not_copy_characters_to_destination_given_character_is_new_line()
+        {
+            var A_NEW_LINE_CHAR = '\n';
+            var destinationMock = new Mock<IDestination>();
+            var sourceMock = new Mock<ISource>();
+            sourceMock.Setup(s => s.GetChar()).Returns(A_NEW_LINE_CHAR);
+            var characterCopier = new CharacterCopier(sourceMock.Object, destinationMock.Object);
+
+            characterCopier.Copy();
+
+            destinationMock.Verify(s => s.SetChar(A_NEW_LINE_CHAR), Times.Never());
+        }
+
+        [Test]
+        public void Copy_received_characters_to_destination_given_valid_destination()
+        {
+            
+        }
     }
     
     internal class DestinationMock : IDestination
     {
+        public void SetChar(char character)
+        {
+            
+        }
     }
 
     internal interface ISource
@@ -59,5 +83,6 @@ namespace CharacterCopier.Test
 
     internal interface IDestination
     {
+        void SetChar(char character);
     }
 }
