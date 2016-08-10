@@ -67,5 +67,16 @@ namespace CharacterCopier.Test
 
             _destinationMock.Verify(s => s.SetChar(A_NEW_LINE_CHAR), Times.Never());
         }
+
+        [Test]
+        public void Copy_received_characters_to_destination_given_valid_destination()
+        {
+            _sourceMock.SetupSequence(s => s.GetChar()).Returns(A_CHARACTER).Returns(A_CHARACTER).Returns(A_NEW_LINE_CHAR);
+            var characterCopier = new CharacterCopier(_sourceMock.Object, _destinationMock.Object);
+
+            characterCopier.Copy();
+
+            _destinationMock.Verify(s => s.SetChar(A_CHARACTER), Times.Exactly(2));
+        }
     }
 }
