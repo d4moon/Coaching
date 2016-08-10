@@ -15,7 +15,11 @@ namespace CharacterCopier.Test
 
         public void Copy()
         {
-            _source.GetChar();
+            var character = _source.GetChar();
+            if (character != '\n')
+            {
+                Copy();
+            }
         }
     }
 }

@@ -67,7 +67,7 @@ namespace CharacterCopier.Test
 
         public char GetChar()
         {
-            throw new NotImplementedException();
+            return '\n';
         }
     }
 }

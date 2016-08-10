@@ -24,9 +24,10 @@ namespace CharacterCopier.Test
         }
 
         [Test]
-        public void Get_character_from_source_given_valid_source()
+        public void Get_character_from_source_once_given_source_returned_newline()
         {
             var sourceMock = new Mock<ISource>();
+            sourceMock.Setup(s => s.GetChar()).Returns('\n');
             var characterCopier = new CharacterCopier(sourceMock.Object, new DestinationMock());
 
             characterCopier.Copy();
@@ -35,7 +36,7 @@ namespace CharacterCopier.Test
         }
 
         [Test]
-        public void Get_all_characters_from_source_given_valid_source()
+        public void Get_all_characters_from_source_given_source_returnes_characters()
         {
             var sourceMock = new Mock<ISource>();
             sourceMock.SetupSequence(s => s.GetChar()).Returns('A').Returns('B').Returns('\n');
