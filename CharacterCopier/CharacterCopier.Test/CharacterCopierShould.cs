@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq.Expressions;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -10,7 +9,7 @@ namespace CharacterCopier.Test
     class CharacterCopierShould
     {
         private const char A_NEW_LINE_CHAR = '\n';
-        private const char A_CHARACTER = 'A';
+        private const char A_CHARACTER = 'C';
         private Mock<IDestination> _destinationMock;
         private Mock<ISource> _sourceMock;
 
@@ -31,12 +30,12 @@ namespace CharacterCopier.Test
         [Test]
         public void Throw_an_exception_given_destination_is_null()
         {
-            Action action = () => new CharacterCopier(new SourceMock(), null);
+            Action action = () => new CharacterCopier(_sourceMock.Object, null);
             action.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
-        public void Get_character_from_source_once_given_source_returned_newline()
+        public void Get_character_from_source_once_given_source_returns_a_newline()
         {
             _sourceMock.Setup(s => s.GetChar()).Returns(A_NEW_LINE_CHAR);
             var characterCopier = new CharacterCopier(_sourceMock.Object, _destinationMock.Object);
@@ -47,7 +46,7 @@ namespace CharacterCopier.Test
         }
 
         [Test]
-        public void Get_all_characters_from_source_given_source_returnes_characters()
+        public void Get_all_characters_from_source_given_source_returns_characters()
         {
             _sourceMock.SetupSequence(s => s.GetChar()).Returns(A_CHARACTER).Returns(A_CHARACTER).Returns(A_NEW_LINE_CHAR);
             var characterCopier = new CharacterCopier(_sourceMock.Object, _destinationMock.Object);
@@ -58,7 +57,7 @@ namespace CharacterCopier.Test
         }
 
         [Test]
-        public void Not_copy_characters_to_destination_given_character_is_new_line()
+        public void Not_set_character_to_destination_given_character_is_a_new_line()
         {
             _sourceMock.Setup(s => s.GetChar()).Returns(A_NEW_LINE_CHAR);
             var characterCopier = new CharacterCopier(_sourceMock.Object, _destinationMock.Object);
@@ -69,7 +68,7 @@ namespace CharacterCopier.Test
         }
 
         [Test]
-        public void Copy_received_characters_to_destination_given_valid_destination()
+        public void Set_all_received_characters_to_destination_given_valid_destination()
         {
             _sourceMock.SetupSequence(s => s.GetChar()).Returns(A_CHARACTER).Returns(A_CHARACTER).Returns(A_NEW_LINE_CHAR);
             var characterCopier = new CharacterCopier(_sourceMock.Object, _destinationMock.Object);
