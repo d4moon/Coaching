@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using FluentAssertions;
 using Moq;
@@ -31,24 +27,41 @@ namespace InstrumentProcessorTests
 
             action.ShouldThrow<ArgumentNullException>();
         }
-
     }
 
-    public interface IInstrument
-    {
-    }
-
-    public class InstrumentProcessor
+    public class InstrumentProcessor: IInstrumentProcessor
     {
         public InstrumentProcessor(ITaskDispatcher taskDispatcher, IInstrument instrument)
         {
             Ensure.Argument(taskDispatcher, nameof(taskDispatcher)).NotNull();
             Ensure.Argument(instrument, nameof(instrument)).NotNull();
         }
+
+        public void Process()
+        {
+            
+        }
+    }
+
+    public interface IInstrument
+    {
+        void Execute(string task);
+
+        event EventHandler Finished;
+        event EventHandler Error;
+
     }
 
     public interface ITaskDispatcher
     {
+        string GetTask();
+        void FinishedTask(string task);
 
     }
+
+    public interface IInstrumentProcessor
+    {
+        void Process();
+    }
+
 }
