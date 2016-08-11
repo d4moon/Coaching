@@ -42,6 +42,37 @@ namespace InstrumentProcessorTests
 
             taskDispatcher.Verify(t => t.GetTask(), Times.Once());
         }
+
+        [Test]
+        [Ignore("TODO")]
+        public void Finish_a_task_when_processing_completed()
+        {
+        }
+    }
+
+    [TestFixture]
+    class Executing_instrument_should
+    {
+        [Test]
+        public void Throw_an_exception_given_no_task()
+        {
+            var instrument = new Instrument();
+
+            Action action = () => instrument.Execute(null);
+
+            action.ShouldThrow<ArgumentNullException>();
+        }
+    }
+
+    internal class Instrument : IInstrument
+    {
+        public void Execute(string task)
+        {
+            Ensure.Argument(task, nameof(task)).NotNull();
+        }
+
+        public event EventHandler Finished;
+        public event EventHandler Error;
     }
 
     public class InstrumentProcessor: IInstrumentProcessor
